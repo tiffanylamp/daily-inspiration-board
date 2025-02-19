@@ -6,6 +6,24 @@ body {
     padding: 20px;
 }
 
+#content-container {
+    width: 50%; /* Adjust for your design */
+    max-width: 900px; /* Prevents it from getting too wide */
+    margin: 30px auto; /* Centers it */
+    padding: 60px;
+    background: rgba(255, 255, 255, 0.2); /* Transparent glass effect */
+    backdrop-filter: blur(10px); /* Soft blur effect */
+    border-radius: 40px; /* Smooth rounded edges */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center; /* Centers text inside */
+}
+
+/* If sections need spacing */
+section {
+    margin-bottom: 20px;
+}
+
+
 header h1 {
     font-size: 2em;
 }
@@ -15,7 +33,7 @@ section {
 }
 
 button {
-    background-color: #FF6B6B;
+    background-color: #0e76ed;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -23,5 +41,5 @@ button {
 }
 
 button:hover {
-    background-color: #F4A261;
+    background-color: #dfee89;
 }

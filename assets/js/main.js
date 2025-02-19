@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Fetch and display a random quote
+    // Fetching and displaying a random quote
     fetch("https://api.quotable.io/random")
         .then(response => response.json())
         .then(data => {
@@ -28,16 +28,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Quotable API
+
+// ZenQuotes API
 window.onload = () => {
     const quoteElement = document.getElementById("quote"); 
+    if (!quoteElement) {
+        console.error("Element with ID 'quote' not found!");
+        return;
+    }
 
-    fetch("https://api.quotable.io/random?tags=inspirational")
+    fetch("https://zenquotes.io/api/random")
         .then(response => response.json())
         .then(data => {
-            quoteElement.innerText = `"${data.content}" — ${data.author}`;
+            console.log("Fetched Quote:", data); 
+            quoteElement.innerText = `"${data[0].q}" — ${data[0].a}`;
         })
-        .catch(() => {
+        .catch((error) => {
+            console.error("Error fetching quote:", error); 
             quoteElement.innerText = "✨ Stay inspired! ✨";
         });
 };
