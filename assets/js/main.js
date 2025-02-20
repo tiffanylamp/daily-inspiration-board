@@ -18,6 +18,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Randomly dispaly Journal prompts
+    const journalPrompts = [
+        "What are three things you’re grateful for today?",
+        "Describe a moment from today that made you smile.",
+        "What’s one challenge you faced today, and how did you overcome it?",
+        "Write about a dream or goal you’re working towards.",
+        "What’s one lesson you learned recently?"
+    ];
+    
+    function displayJournalPrompt() {
+        const promptElement = document.getElementById("journal-prompt");
+        if (promptElement) {
+            const randomIndex = Math.floor(Math.random() * journalPrompts.length);
+            promptElement.innerText = journalPrompts[randomIndex];
+        } else {
+            console.error("Element with ID 'journal-prompt' not found.");
+        }
+    }
+    
+    // Show a random prompt when the page loads
+    window.onload = () => {
+        displayJournalPrompt();
+    };
+    
+
     // Handle journal entry save
     document.getElementById("save-entry").addEventListener("click", () => {
         const journalEntry = document.getElementById("journal-entry").value;
