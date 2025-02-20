@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Randomly dispaly Journal prompts
+    // Randomly dispaly Journal prompts 
     const journalPrompts = [
         "What are three things you’re grateful for today?",
         "Describe a moment from today that made you smile.",
@@ -54,25 +54,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// ZenQuotes API
-window.onload = () => {
-    const quoteElement = document.getElementById("quote"); 
-    if (!quoteElement) {
-        console.error("Element with ID 'quote' not found!");
-        return;
-    }
+// Quotes API
+fetch("https://api.quotable.io/random?tags=inspirational")
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("quote").innerText = `"${data.content}" — ${data.author}`;
+    })
+    .catch(error => {
+        console.error("Error fetching quote:", error);
+        document.getElementById("quote").innerText = "✨ Stay inspired! ✨";
+    });
 
-    fetch("https://zenquotes.io/api/random")
-        .then(response => response.json())
-        .then(data => {
-            console.log("Fetched Quote:", data); 
-            quoteElement.innerText = `"${data[0].q}" — ${data[0].a}`;
-        })
-        .catch((error) => {
-            console.error("Error fetching quote:", error); 
-            quoteElement.innerText = "✨ Stay inspired! ✨";
-        });
-};
 
 
 // Weather API
