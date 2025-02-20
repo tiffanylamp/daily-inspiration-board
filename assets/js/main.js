@@ -1,11 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Fetching and displaying a random quote
-    fetch("https://api.quotable.io/random")
+    // Fetching and displaying a random quote from ZenQuotes API
+    fetch("https://zenquotes.io/api/random")
         .then(response => response.json())
         .then(data => {
-            document.getElementById("quote").textContent = data.content;
-            document.getElementById("author").textContent = `- ${data.author}`;
+            document.getElementById("quote").textContent = `"${data[0].q}"`;
+            document.getElementById("author").textContent = `- ${data[0].a}`;
+        })
+        .catch(error => {
+            console.error("Error fetching quote:", error);
+            document.getElementById("quote").textContent = "✨ Stay inspired! ✨";
+            // document.getElementById("author").textContent = "";
         });
+
 
     // Handle to-do list functionality
     document.getElementById("add-task").addEventListener("click", () => {
@@ -36,6 +42,47 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Element with ID 'journal-prompt' not found.");
         }
     }
+
+    function saveJournalEntry() {
+        const entry = document.getElementById("journal-entry").value;
+    
+        if (!entry.trim()) {
+            alert("Your journal entry is empty. Write something before saving!");
+            return;
+        }
+    
+        if (confirm("Would you like to save this journal entry?")) {
+            let savedEntries = JSON.parse(localStorage.getItem("journalEntries")) || [];
+            
+            // Create an entry object
+            let newEntry = {
+                text: entry,
+                date: new Date().toLocaleString()
+            };
+    
+            savedEntries.push(newEntry); // Add new entry
+            localStorage.setItem("journalEntries", JSON.stringify(savedEntries)); // Save back to storage
+    
+            alert("Journal entry saved successfully!");
+        }
+    }
+    
+    // Load all saved entries
+    function loadJournalEntries() {
+        const savedEntries = JSON.parse(localStorage.getItem("journalEntries")) || [];
+        
+        let entriesHTML = savedEntries.map(entry => `<p><strong>${entry.date}:</strong> ${entry.text}</p>`).join("");
+        document.getElementById("journal-entries").innerHTML = entriesHTML;
+
+        console.log("Loaded Entries:", savedEntries);
+
+    }
+    
+    // Load on page start
+    document.addEventListener("DOMContentLoaded", () => {
+        loadJournalEntries();
+    });
+    
     
     // Show a random prompt when the page loads
     window.onload = () => {
@@ -54,16 +101,56 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// Quotes API
-fetch("https://api.quotable.io/random?tags=inspirational")
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById("quote").innerText = `"${data.content}" — ${data.author}`;
-    })
-    .catch(error => {
-        console.error("Error fetching quote:", error);
-        document.getElementById("quote").innerText = "✨ Stay inspired! ✨";
+// Storing to-dos in JSON format 
+// Load saved todos from localStorage
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+// Function to add a new task
+function addTodo(task) {
+    const newTodo = { text: task, completed: false };
+    todos.push(newTodo);
+    localStorage.setItem("todos", JSON.stringify(todos));
+    displayTodos(); // Refresh the UI
+}
+
+// Function to display tasks on the page
+function displayTodos() {
+    const todoList = document.getElementById("todo-list");
+    todoList.innerHTML = ""; // Clear existing list
+
+    todos.forEach((todo, index) => {
+        const li = document.createElement("li");
+        li.textContent = todo.text;
+        
+        // Add delete button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "❌";
+        deleteBtn.onclick = () => removeTodo(index);
+        
+        li.appendChild(deleteBtn);
+        todoList.appendChild(li);
     });
+}
+
+// Function to remove a task
+function removeTodo(index) {
+    todos.splice(index, 1);
+    localStorage.setItem("todos", JSON.stringify(todos));
+    displayTodos(); // Refresh the UI
+}
+
+// Load and display saved todos on page load
+document.addEventListener("DOMContentLoaded", () => {
+    displayTodos();
+    
+    document.getElementById("addTodoBtn").addEventListener("click", () => {
+        const taskInput = document.getElementById("todoInput");
+        if (taskInput.value.trim() !== "") {
+            addTodo(taskInput.value.trim());
+            taskInput.value = ""; // Clears input after adding
+        }
+    });
+});
 
 
 

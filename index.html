@@ -21,15 +21,21 @@
         <section id="journal-section">
             <h2>Journal Prompt</h2>
             <p id="journal-prompt">Loading your prompt...</p>
-            <textarea id="journal-entry" placeholder="Write here..."></textarea>
-            <button id="save-entry">Save</button>
+            <button id="newPromptBtn">New Prompt</button>
+        
+            <textarea id="journal-entry" placeholder="Write your thoughts here..."></textarea>
+            <button id="saveEntryBtn">Save Entry</button>
+        
+            <h3>Previous Entries</h3>
+            <div id="journal-entries"></div>
         </section>
+        
         
         <section id="todo-section">
             <h2>To-Do List</h2>
+            <input type="text" id="todoInput" placeholder="Add a new task...">
+            <button id="addTodoBtn">Add</button>
             <ul id="todo-list"></ul>
-            <input type="text" id="new-task" placeholder="Add a task...">
-            <button id="add-task">Add</button>
         </section>
 
         <section id="weather-section">
